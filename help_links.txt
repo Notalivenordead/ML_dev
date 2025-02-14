@@ -1,0 +1,11 @@
+https://aglamov-biz.turbopages.org/aglamov.biz/s/jazyki-programmirovanija/bazy-dannyh/postgresql/masterstvo-prodvinutyh-zaprosov-v-postgresql?turbo_uid=AACOhBtwUXKsH12SMxId4i4ZaHCiQuRKV606aNTr874ORRDAPp2g57QA4w5mOpNeBXdSmqvkZKU4wc2mRRxctJGp4JCBGVW6yL-r8wosjrc2_n2REWUbxRRshc2seITDnlaEQw%2C%2C&turbo_ic=AACcITANtGXdq5a64Fk7Wy8atBV-zRqsP1iZ9YNZFKftG6B03cHXKFm9CNScAA7g8cvEQRHPz0oPzYOK8NXbUdPUu-kdLQg5K-fYqoKxRH8DHIIJKpFxLQlIEUVG5zRZ49mJew%2C%2C&sign=9a7192427a874633e7c8db895467e16556615e4904c6f6fbb43fe875e67f70ff%3A1739179750&parent-reqid=1739179750457101-7410221969364229165-balancer-l7leveler-kubr-yp-klg-63-BAL&trbsrc=wb
+Для сложных запросов
+
+https://oracleplsql.ru/joins-postgresql.html
+по JOINs
+
+https://pythonru-com.turbopages.org/turbo/pythonru.com/s/biblioteki/seaborn-plot
+графики через seaborn
+
+cd MBdir
+java -jar metabase.jar
