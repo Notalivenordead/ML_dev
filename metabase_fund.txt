@@ -1,0 +1,146 @@
+Примерные запросы для отборажения в дашборды
+
+Аналитика по метро
+
+По всему
+1. Топ по загруженности - станции
+SELECT 
+    station_name,
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+GROUP BY 
+    station_name
+ORDER BY 
+    total_passengers DESC
+LIMIT 5;
+
+2.  Топ по загруженности -  линии:
+SELECT 
+    line_name,
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+GROUP BY 
+    line_name
+ORDER BY 
+    total_passengers DESC
+LIMIT 5;
+
+3. пассы/ветка/день
+SELECT 
+    line_name,
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+GROUP BY 
+    line_name
+ORDER BY 
+    total_passengers DESC;
+
+4. пассы/день
+SELECT 
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP);
+
+По линиям
+
+1. Топ по загруженности - станции на линии:
+SELECT 
+    station_name,
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+    AND line_name = {{line_filter}}
+GROUP BY 
+    station_name
+ORDER BY 
+    total_passengers DESC
+LIMIT 5;
+
+2. пассы/день
+SELECT 
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+    AND line_name = {{line_filter}};
+
+3.  пассы/станции
+SELECT 
+    station_name,
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+    AND line_name = {{line_filter}}
+GROUP BY 
+    station_name
+ORDER BY 
+    total_passengers DESC;
+
+    
+По станциям
+
+1. место в топе
+WITH ranked_stations AS (
+    SELECT 
+        station_name,
+        SUM(passangers_in) AS total_passengers,
+        RANK() OVER (ORDER BY SUM(passangers_in) DESC) AS rank
+    FROM 
+        metro_extended
+    WHERE 
+        EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+    GROUP BY 
+        station_name
+)
+SELECT 
+    rank
+FROM 
+    ranked_stations
+WHERE 
+    station_name = {{station_filter}};
+
+2. Общее число пассажиров на станции за день :
+
+SELECT 
+    SUM(passangers_in) AS total_passengers
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+    AND station_name = {{station_filter}};
+
+3. Нужные метрики
+
+SELECT 
+    station_name,
+    capacity_in AS station_capacity,
+    SUM(capacity_in) OVER () AS total_capacity,
+    SUM(passangers_in) AS total_passengers,
+    (SUM(passangers_in)::FLOAT / capacity_in) * 100 AS load_percentage,
+    SUM(SUM(passangers_in)) OVER () AS total_load
+FROM 
+    metro_extended
+WHERE 
+    EXTRACT(DAY FROM timestamp) = EXTRACT(DAY FROM CURRENT_TIMESTAMP)
+    AND station_name = {{station_filter}}
+GROUP BY 
+    station_name, capacity_in;
+
+
+
